@@ -3,12 +3,20 @@
 
 #include <chrono>
 
-
 using namespace std::chrono_literals;
 
+
+/**
+ * @brief A class that implements a publisher object to print a string.
+ * 
+ */
 class SimplePublisher : public rclcpp::Node
 {
 public:
+  /**
+   * @brief Construct a new Simple Publisher object and create timer function.
+   * 
+   */
   SimplePublisher() : Node("simple_publisher"), counter_(0)
   {
     pub_ = create_publisher<std_msgs::msg::String>("chatter", 10);
@@ -16,6 +24,10 @@ public:
     RCLCPP_INFO(get_logger(), "Publishing at 1 Hz");
   }
 
+  /**
+   * @brief A callback function that prints a string that uses a incrementing
+   * counter variable.
+   */
   void timerCallback()
   {
     auto message = std_msgs::msg::String();
@@ -23,7 +35,9 @@ public:
     pub_->publish(message);
   }
 
+
 private:
+  // private variables
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr pub_;
   rclcpp::TimerBase::SharedPtr timer_;
   unsigned int counter_;
